@@ -12,4 +12,8 @@ export class EventsRepository {
   insertAndFetch(payload: CreateEventDto): Promise<Event> {
     return EventModel.query().insertAndFetch(payload);
   }
+
+  detailById(id: number): Promise<Event> {
+    return EventModel.query().findById(id);
+  }
 }
