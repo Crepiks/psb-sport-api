@@ -46,7 +46,7 @@ export class EventsController {
     @Body() updateEventDto: UpdateEventDto,
   ) {
     return {
-      product: await this.eventsService.update(+eventId, updateEventDto),
+      event: await this.eventsService.update(+eventId, updateEventDto),
     };
   }
 
@@ -66,15 +66,15 @@ export class EventsController {
     @Param('eventId') eventId: string,
   ) {
     return {
-      product: await this.eventsService.uploadImage(+eventId, image.path),
+      event: await this.eventsService.uploadImage(+eventId, image.path),
     };
   }
 
-  // @Delete(':productId/images/:imageId')
-  // deleteImage(
-  //   @Param('productId') productId: string,
-  //   @Param('imageId') imageId: string,
-  // ) {
-  //   return this.productsService.removeImage(+productId, +imageId);
-  // }
+  @Delete(':eventId/images/:imageId')
+  deleteImage(
+    @Param('eventId') eventId: string,
+    @Param('imageId') imageId: string,
+  ) {
+    return this.eventsService.removeImage(+eventId, +imageId);
+  }
 }

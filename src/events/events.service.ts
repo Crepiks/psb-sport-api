@@ -42,8 +42,8 @@ export class EventsService {
     return event;
   }
 
-  async uploadImage(productId: number, imagePath: string): Promise<Event> {
-    let event = await this.eventsRepository.findById(productId);
+  async uploadImage(eventId: number, imagePath: string): Promise<Event> {
+    let event = await this.eventsRepository.findById(eventId);
     if (!event) {
       throw new NotFoundException('Event not found');
     }
@@ -62,5 +62,20 @@ export class EventsService {
     if (!rowsDeleted) {
       throw new NotFoundException('Event not found');
     }
+  }
+
+  async removeImage(eventId: number, imageId: number): Promise<void> {
+    const event = await this.eventsRepository.findById(eventId);
+    if (!event) {
+      throw new NotFoundException('Event not found');
+    }
+
+    const image = await this.eventsRepository.findImageById(event.id, imageId);
+    if (!image) {
+      throw new NotFoundException('Image not found');
+    }
+
+    await this.eventsRepository.deleteImageById(image.id);
+    await this.fileStorageService.deleteFile(image.imagePath);
   }
 }
