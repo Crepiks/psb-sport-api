@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Get, Param, Patch } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  Patch,
+  Delete,
+} from '@nestjs/common';
 import { CreateEventDto } from './dto/create-event.dto';
 import { EventsService } from './events.service';
 import { UpdateEventDto } from './dto/update-event.dto';
@@ -38,10 +46,10 @@ export class EventsController {
     };
   }
 
-  // @Delete(':productId')
-  // remove(@Param('productId') productId: string) {
-  //   return this.productsService.remove(+productId);
-  // }
+  @Delete(':eventId')
+  remove(@Param('eventId') eventId: string) {
+    return this.eventsService.remove(+eventId);
+  }
 
   // @Post(':productId/images')
   // async uploadImage(

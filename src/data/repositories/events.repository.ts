@@ -21,4 +21,8 @@ export class EventsRepository {
   updateAndFetchById(id: number, payload: UpdateEventDto): Promise<Event> {
     return EventModel.query().patchAndFetchById(id, payload);
   }
+
+  deleteById(id: number): Promise<number> {
+    return EventModel.query().deleteById(id);
+  }
 }
