@@ -1,6 +1,7 @@
-import { Controller, Post, Body, Get, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Patch } from '@nestjs/common';
 import { CreateEventDto } from './dto/create-event.dto';
 import { EventsService } from './events.service';
+import { UpdateEventDto } from './dto/update-event.dto';
 
 @Controller('api/events')
 export class EventsController {
@@ -27,15 +28,15 @@ export class EventsController {
     };
   }
 
-  // @Patch(':productId')
-  // async update(
-  //   @Param('productId') productId: string,
-  //   @Body() updateProductDto: UpdateProductDto,
-  // ) {
-  //   return {
-  //     product: await this.productsService.update(+productId, updateProductDto),
-  //   };
-  // }
+  @Patch(':eventId')
+  async update(
+    @Param('eventId') eventId: string,
+    @Body() updateEventDto: UpdateEventDto,
+  ) {
+    return {
+      product: await this.eventsService.update(+eventId, updateEventDto),
+    };
+  }
 
   // @Delete(':productId')
   // remove(@Param('productId') productId: string) {

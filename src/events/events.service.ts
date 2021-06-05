@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEventDto } from './dto/create-event.dto';
 import { Event } from 'src/entities/event.entity';
 import { EventsRepository } from 'src/data/repositories/events.repository';
+import { UpdateEventDto } from './dto/update-event.dto';
 
 @Injectable()
 export class EventsService {
@@ -24,6 +25,15 @@ export class EventsService {
 
   async create(payload: CreateEventDto): Promise<Event> {
     const event = await this.eventsRepository.insertAndFetch(payload);
+
+    return event;
+  }
+
+  async update(id: number, payload: UpdateEventDto) {
+    const event = await this.eventsRepository.updateAndFetchById(id, payload);
+    if (!event) {
+      throw new NotFoundException('Event not found');
+    }
 
     return event;
   }
