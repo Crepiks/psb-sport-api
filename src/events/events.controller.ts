@@ -6,10 +6,14 @@ import {
   Param,
   Patch,
   Delete,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateEventDto } from './dto/create-event.dto';
 import { EventsService } from './events.service';
 import { UpdateEventDto } from './dto/update-event.dto';
+import diskStorage from 'src/utils/disk-storage.util';
 
 @Controller('api/events')
 export class EventsController {
@@ -51,15 +55,20 @@ export class EventsController {
     return this.eventsService.remove(+eventId);
   }
 
-  // @Post(':productId/images')
-  // async uploadImage(
-  //   @UploadedFile() image: Express.Multer.File,
-  //   @Param('productId') productId: string,
-  // ) {
-  //   return {
-  //     product: await this.productsService.uploadImage(+productId, image.path),
-  //   };
-  // }
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage,
+    }),
+  )
+  @Post(':eventId/images')
+  async uploadImage(
+    @UploadedFile() image: Express.Multer.File,
+    @Param('eventId') eventId: string,
+  ) {
+    return {
+      product: await this.eventsService.uploadImage(+eventId, image.path),
+    };
+  }
 
   // @Delete(':productId/images/:imageId')
   // deleteImage(

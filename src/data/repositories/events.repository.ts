@@ -14,6 +14,10 @@ export class EventsRepository {
     return EventModel.query().insertAndFetch(payload);
   }
 
+  findById(id: number): Promise<Event> {
+    return EventModel.query().findById(id);
+  }
+
   detailById(id: number): Promise<Event> {
     return EventModel.query().findById(id);
   }

@@ -3,10 +3,14 @@ import { CreateEventDto } from './dto/create-event.dto';
 import { Event } from 'src/entities/event.entity';
 import { EventsRepository } from 'src/data/repositories/events.repository';
 import { UpdateEventDto } from './dto/update-event.dto';
+import { FileStorageService } from 'src/file-storage/file-storage.service';
 
 @Injectable()
 export class EventsService {
-  constructor(private readonly eventsRepository: EventsRepository) {}
+  constructor(
+    private readonly eventsRepository: EventsRepository,
+    private readonly fileStorageService: FileStorageService,
+  ) {}
 
   async findAll() {
     const events = await this.eventsRepository.findAll();
@@ -34,6 +38,21 @@ export class EventsService {
     if (!event) {
       throw new NotFoundException('Event not found');
     }
+
+    return event;
+  }
+
+  async uploadImage(productId: number, imagePath: string): Promise<Event> {
+    let event = await this.eventsRepository.findById(productId);
+    if (!event) {
+      throw new NotFoundException('Event not found');
+    }
+
+    const filePath = await this.fileStorageService.uploadImage(imagePath);
+    await this.eventsRepository.insertImage(event.id, {
+      imagePath: filePath,
+    });
+    event = await this.eventsRepository.detailById(event.id);
 
     return event;
   }
