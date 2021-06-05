@@ -26,9 +26,9 @@
     "@nestjs/core": "^7.6.15",
     "@nestjs/platform-express": "^7.6.15",
     "dotenv": "^10.0.0",
-    "knex": "^0.95.6",
-    "mysql2": "^2.2.5",
-    "objection": "^2.2.15",
+    "knex": "^0.21.5",
+    "mysql2": "^2.1.0",
+    "objection": "^2.2.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.6"
